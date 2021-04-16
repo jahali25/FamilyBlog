@@ -1,10 +1,14 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/">Home</router-link> 
     </div>
     <router-view/>
+    <div class="footer">
+      <a href="https://github.com/jahali25/FamilyBlog" target="_blank">
+        <img src="/icons/GitHub-Mark-120px-plus.png">
+      </a>
+    </div>
   </div>
 </template>
 

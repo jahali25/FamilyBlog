@@ -1,6 +1,6 @@
 const photoPath = "/icons/";
 
-icons = [{
+let icons = [{
     id: 1,
     name: "basketball",
     path: photoPath + "basketball.svg"
@@ -13,7 +13,7 @@ icons = [{
 {
     id: 3,
     name: "football",
-    path: photoPath + "footballball.svg"
+    path: photoPath + "football.svg"
 },
 {
     id: 4,
@@ -40,6 +40,6 @@ icons = [{
     name: "lightning",
     path: photoPath + "baseball.svg"
 }
-]
+];
 
 export default icons;

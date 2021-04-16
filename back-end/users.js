@@ -219,7 +219,7 @@ router.delete("/", validUser, async (req, res) => {
 
 // This will change the user info but not the password or the role
 // Those will be a different functions
-router.put("/", validUser, async (req, req) => {
+router.put("/", validUser, async (req, res) => {
   try {
     let user = req.user;
     user.firstName = req.body.firstName;
@@ -227,12 +227,91 @@ router.put("/", validUser, async (req, req) => {
     user.bio = req.body.bio;
     user.iconPath = req.body.iconPath;
     await user.save();
+    req.session.userID = user._id;
     res.sendStatus(200);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 });
+
+// This will change the user's password, but only the password
+router.put("/password", validUser, async (req, res) => {
+  try {
+    let user = req.user;
+    user.password = req.body.password;
+    await user.save();
+    res.status(200).send({
+      message: "Password was changed"
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(403).send({
+      message: "Unable to update password"
+    });
+  }
+});
+
+// This will allow administrators to be able to make other users
+
+router.put("/promote/:userID", validUser, async (req, res) => {
+  // can only do this if an administrator
+  if (req.user.role !== "admin") {
+    return res.sendStatus(403);
+  }
+
+  try {
+    user = await User.findOne({
+      _id: req.params.userId
+    });
+    user.role = "admin";
+    await user.save();
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+// This will allow administrators to ban users that are not also administrators
+// This will make it so that banned users cannot post comments or new blog posts
+router.put("/ban/:userID", validUser, async (req, res) => {
+  // can only do this if an administrator
+  if (req.user.role !== "admin") {
+    return res.sendStatus(403);
+  }
+  try {
+    user = await User.findOne({
+      _id: req.params.userId
+    });
+    if (user.role === "admin") {
+      return res.sendStatus(403);
+    }
+    user.role = "banned";
+    await user.save();
+    res.sendStatus(200);
+  } catch (error) {
+      console.log(error);
+      return res.sendStatus(500);
+    }
+});
+
+// This will allow administrators to get a list of all users to be able to
+// change their role to admin or banned
+router.get("/all", validUser, async (req, res) => {
+  if (req.user.role !== "admin") {
+    return res.sendStatus(403);
+  }
+  try {
+    users = await User.find();
+    return res.send({
+      users: users
+    });
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+})
 
 module.exports = {
   routes: router,

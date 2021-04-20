@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 //import Icons from '@/components/Icons.vue';
 import Login from '@/components/Login.vue';
 export default {
@@ -20,6 +21,24 @@ export default {
         user() {
             return this.$root.$data.user;
         }
+  },
+  async created() {
+    try {
+      let response = await axios.get('/api/users');
+      this.$root.$data.user = response.data;
+      this.checkUserStatus();
+    } catch (error) {
+      this.$root.$data.user = null;
     }
+  },
+  methods: {
+    checkUserStatus() {
+      if (this.$root.$data.user.role === "admin") {
+        this.$root.$data.isAdmin = true;
+      } else {
+        this.$root.$data.isAdmin = false;
+      }
+    }
+  }
 }
 </script>

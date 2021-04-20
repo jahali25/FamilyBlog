@@ -1,7 +1,12 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> 
+      <router-link to="/">Home</router-link>
+      <div v-if="user">
+        <router-link to='/settings'>
+          <i class="fas fa-user-cog" id="settingsIcon"></i>
+        </router-link>
+      </div>
     </div>
     <router-view/>
     <div class="footer">
@@ -11,6 +16,23 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'App',
+  components: {
+
+  },
+  computed: {
+    isAdmin() {
+      return this.$root.$data.isAdmin;
+    },
+    user() {
+      return this.$root.$data.user;
+    }
+  },
+}
+</script>
 
 <style>
 #app {
@@ -32,5 +54,11 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+#settingsIcon {
+  margin: 20px;
+  height: 10px;
+  font-size: 40px;
 }
 </style>

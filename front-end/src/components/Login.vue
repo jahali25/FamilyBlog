@@ -44,7 +44,7 @@
 
 <script>
 import axios from 'axios';
-import Icons from "@/components/Icons.vue"
+import Icons from "@/components/Icons.vue";
 export default {
     name: 'Login',
     components: {

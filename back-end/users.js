@@ -228,7 +228,9 @@ router.put("/", validUser, async (req, res) => {
     user.iconPath = req.body.iconPath;
     await user.save();
     req.session.userID = user._id;
-    res.sendStatus(200);
+    res.send({
+      user: user
+    });
   } catch (error) {
     console.log(error);
     res.sendStatus(500);

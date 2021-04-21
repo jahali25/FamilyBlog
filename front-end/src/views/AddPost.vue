@@ -1,6 +1,10 @@
 <template>
 <div class="addPostContainer">
-    <div class ="postContainer">
+    <div v-if="isBanned">
+      <h1>Sorry, you don't have permission to make posts.</h1>
+      <denied-permission />
+    </div>
+    <div class ="postContainer" v-else>
       <form class="pure-form" @submit.prevent="upload">
         <legend>Upload a Blog Post</legend>
         <fieldset>
@@ -31,9 +35,13 @@
 </template>
 // ToDo Add a date picker
 <script>
+import DeniedPermission from "@/components/DeniedPermission.vue";
 import axios from 'axios';
 export default {
   name: 'AddPost',
+  components: {
+    DeniedPermission
+  },
   data() {
     return {
       title: '',
@@ -43,6 +51,20 @@ export default {
       error: '',
       beenPosted: false,
     }
+  },
+  computed: {
+    isBanned() {
+      return this.$root.$data.isBanned;
+    }
+  },
+  async created() {
+      try {
+        let response = await axios.get('/api/users');
+        this.$root.$data.user = response.data.user;
+        this.checkUserStatus();
+      } catch (error) {
+        this.$root.$data.user = null;
+      }
   },
   methods: {
     fileChanged(event) {
@@ -70,6 +92,18 @@ export default {
           this.error = "Error: " + error.response.data.message;
       }
     },
+    checkUserStatus() {
+      if (this.$root.$data.user.role === "admin") {
+        this.$root.$data.isAdmin = true;
+        this.$root.$data.isBanned = false;
+      } else if (this.$root.$data.user.role === "banned") {
+        this.$root.$data.isAdmin = false;
+        this.$root.$data.isBanned = true;
+      } else {
+        this.$root.$data.isAdmin = false;
+        this.$root.$data.isBanned = false;
+      }
+    }
   },
 }
 </script>

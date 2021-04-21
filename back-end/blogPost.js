@@ -52,6 +52,10 @@ router.post('/', validUser, upload.single('photo'), async (req, res) => {
       message: "Must upload a file"
     });
   }
+  if (req.user.role === "banned") {
+    console.log("You are banned! You can't post!");
+    return res.sendStatus(403);
+  }
   let date = Date.now();
   if (req.body.created) {
     date = req.body.created;

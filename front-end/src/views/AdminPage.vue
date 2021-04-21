@@ -23,15 +23,19 @@
         </button>
       </div>
     </div>
+    <div v-else>
+      <DeniedPermission />
+    </div>
 </div>
 </template>
 
 <script>
 import axios from 'axios';
+import DeniedPermission from "@/components/DeniedPermission.vue";
 export default {
   name: 'AdminPage',
   components: {
-
+    DeniedPermission
   },
   data() {
     return {
@@ -84,11 +88,16 @@ export default {
   },
   methods: {
     checkUserStatus() {
-      if (this.$root.$data.user.role === "admin") {
-        this.$root.$data.isAdmin = true;
-      } else {
-        this.$root.$data.isAdmin = false;
-      }
+        if (this.$root.$data.user.role === "admin") {
+          this.$root.$data.isAdmin = true;
+          this.$root.$data.isBanned = false;
+        } else if (this.$root.$data.user.role === "banned") {
+          this.$root.$data.isAdmin = false;
+          this.$root.$data.isBanned = true;
+        } else {
+          this.$root.$data.isAdmin = false;
+          this.$root.$data.isBanned = false;
+        }
     },
     async getUsers() {
       try {

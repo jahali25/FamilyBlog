@@ -117,8 +117,13 @@ export default {
         checkUserStatus() {
           if (this.$root.$data.user.role === "admin") {
             this.$root.$data.isAdmin = true;
+            this.$root.$data.isBanned = false;
+          } else if (this.$root.$data.user.role === "banned") {
+            this.$root.$data.isAdmin = false;
+            this.$root.$data.isBanned = true;
           } else {
             this.$root.$data.isAdmin = false;
+            this.$root.$data.isBanned = false;
           }
         },
         updateFields(response) {

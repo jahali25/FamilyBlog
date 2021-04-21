@@ -6,7 +6,9 @@
         <i class="fas fa-bullhorn"></i>
       </router-link>
       <div v-if="user">
-        <router-link to="/addPost"> Add a Blog Post </router-link>
+        <div v-if="isNotBanned">
+          <router-link to="/addPost"> Add a Blog Post </router-link>
+        </div>
         <router-link to='/settings'>
           <i class="fas fa-user-cog" id="settingsIcon"></i>
         </router-link>
@@ -46,6 +48,12 @@ export default {
     },
     user() {
       return this.$root.$data.user;
+    },
+    isNotBanned() {
+      if (!this.$root.$data.user) {
+        return false;
+      }
+      return !this.$root.$data.isBanned;
     }
   },
   methods: {

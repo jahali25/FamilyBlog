@@ -8,6 +8,7 @@ Vue.config.productionTip = false
 let data = {
   user: null,
   isAdmin: false,
+  isBanned: true,
   icons: icons
 }
 

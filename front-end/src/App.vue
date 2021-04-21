@@ -1,11 +1,18 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link>
+      <router-link to="/"><i class="fas fa-home"></i></router-link>
+      <router-link to='/exhibition'>
+        <i class="fas fa-bullhorn"></i>
+      </router-link>
       <div v-if="user">
+        <router-link to="/addPost"> Add a Blog Post </router-link>
         <router-link to='/settings'>
           <i class="fas fa-user-cog" id="settingsIcon"></i>
         </router-link>
+        <h2>{{user.firstName}} {{user.lastName}}
+          <a @click="logout"><i class="fas fa-sign-out-alt"></i></a>
+        </h2>
       </div>
     </div>
     <router-view/>
@@ -18,6 +25,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'App',
   components: {
@@ -31,6 +39,16 @@ export default {
       return this.$root.$data.user;
     }
   },
+  methods: {
+    async logout() {
+      try {
+        await axios.delete("/api/users");
+        this.$root.$data.user = null;
+      } catch (error) {
+        this.$root.$data.user = null;
+      }
+    }
+  }
 }
 </script>
 
@@ -60,5 +78,8 @@ export default {
   margin: 20px;
   height: 10px;
   font-size: 40px;
+}
+.fas {
+  font-size: 50px;
 }
 </style>

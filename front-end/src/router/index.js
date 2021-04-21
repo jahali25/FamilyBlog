@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Settings from '../views/Settings.vue'
+import AddPost from '../views/AddPost.vue'
+import Exhibition from '../views/Exhibition.vue'
 
 Vue.use(VueRouter)
 
@@ -16,6 +18,16 @@ const routes = [
     name: 'Settings',
     component: Settings
   },
+  {
+    path: '/addPost',
+    name: 'AddPost',
+    component: AddPost
+  },
+  {
+    path: '/exhibition',
+    name: 'Exhibition',
+    component: Exhibition
+  }
 ]
 
 const router = new VueRouter({

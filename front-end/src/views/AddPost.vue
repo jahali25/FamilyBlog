@@ -1,0 +1,121 @@
+<template>
+<div class="addPostContainer">
+    <div class ="postContainer">
+      <form class="pure-form" @submit.prevent="upload">
+        <legend>Upload a Blog Post</legend>
+        <fieldset>
+          <input v-model="title" placeholder="Title">
+        </fieldset>
+        <fieldset>
+          <textarea v-model="paragraphs" placeholder="Blog Post"></textarea>
+        </fieldset>
+        <fieldset>
+          <div class="imageInput" @click="chooseImage">
+            <img v-if="url" :src="url" />
+            <div v-if="!url" class="placeholder">
+              Choose an Image
+            </div>
+            <input class="fileInput" ref="fileInput" type="file" @input="fileChanged">
+          </div>
+          <p v-if="error" class="error">{{error}}</p>
+        </fieldset>
+        <fieldset class="buttons">
+          <button type="submit" class="pure-button pure-button-primary right">Upload</button>
+        </fieldset>
+      </form>
+      <div class="submitted" v-if="beenPosted">
+        <h2>Congrats! We posted your post</h2>
+      </div>
+    </div>
+</div>
+</template>
+// ToDo Add a date picker
+<script>
+import axios from 'axios';
+export default {
+  name: 'AddPost',
+  data() {
+    return {
+      title: '',
+      paragraphs: '',
+      url: '',
+      file: null,
+      error: '',
+      beenPosted: false,
+    }
+  },
+  methods: {
+    fileChanged(event) {
+      this.file = event.target.files[0];
+      this.url = URL.createObjectURL(this.file);
+      this.beenPosted = false;
+    },
+    chooseImage() {
+      this.$refs.fileInput.click();
+    },
+    async upload() {
+      try {
+        const formData = new FormData();
+        formData.append('photo', this.file, this.file.name);
+        formData.append('title', this.title);
+        formData.append('paragraphs', this.paragraphs);
+        await axios.post("/api/posts", formData);
+        this.file = null;
+        this.url = "";
+        this.title = "";
+        this.paragraphs = "";
+        this.error = "";
+        this.beenPosted = true;
+      } catch (error) {
+          this.error = "Error: " + error.response.data.message;
+      }
+    },
+  },
+}
+</script>
+
+<style scoped>
+/* Form */
+
+form {
+  font-size: 11pt;
+}
+
+input {
+  width: 100%;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+}
+
+.placeholder {
+  background: #F0F0F0;
+  width: 200px;
+  height: 125px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.placeholder:hover {
+  background: #E0E0E0;
+}
+
+.fileInput {
+  display: none;
+}
+
+img {
+  width: 200px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+</style>

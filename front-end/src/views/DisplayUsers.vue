@@ -6,6 +6,9 @@
       <h2>{{user.firstName}} {{user.lastName}}</h2>
       <img class="userIcon" :src="user.iconPath" />
       <p>{{user.bio}}</p>
+      <div v-if="isAdmin(user)">
+        <h1>Admin here</h1>
+      </div>
       <hr />
     </div>
   </div>
@@ -22,7 +25,7 @@ export default {
     computed: {
       currentUser() {
         return this.$root.$data.user;
-      }
+      },
     },
     data() {
       return {
@@ -55,6 +58,9 @@ export default {
             console.log(error);
           }
         },
+        isAdmin(user) {
+          return user.role === "admin";
+        }
     }
 }
 </script>

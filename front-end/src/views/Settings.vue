@@ -70,7 +70,6 @@ export default {
     methods: {
         selectIcon(childIcon) {
             this.icon = childIcon;
-            console.log("selected Icon!" + childIcon.name);
         },
         async changeInfo() {
             if (this.user == null) {
@@ -90,7 +89,6 @@ export default {
                     bio: this.bio,
                     iconPath: iconPath,
                 });
-                console.log(response);
                 this.$root.$data.user = response.data.user;
                 this.checkUserStatus();
                 this.updateFields(response);

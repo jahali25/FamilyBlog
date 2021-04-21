@@ -14,6 +14,11 @@
         <router-link  to='/displayUsers'>
           <i class="fas fa-users"></i>
         </router-link>
+        <div v-if="isAdmin">
+          <router-link  to="/admin">
+            <i class="fas fa-toolbox"></i>
+          </router-link>
+        </div>
         <h2>{{user.firstName}} {{user.lastName}}
           <a @click="logout"><i class="fas fa-sign-out-alt"></i></a>
         </h2>
@@ -48,6 +53,8 @@ export default {
       try {
         await axios.delete("/api/users");
         this.$root.$data.user = null;
+        this.$root.$data.isAdmin = false;
+        this.$forceUpdate();
       } catch (error) {
         this.$root.$data.user = null;
       }

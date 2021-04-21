@@ -83,6 +83,7 @@ export default {
                     iconPath: this.icon.path,
                 });
                 this.$root.$data.user = response.data.user;
+                this.checkUserStatus();
             } catch (error) {
                 this.error = error.response.data.message;
                 this.$root.$data.user = null;
@@ -99,6 +100,7 @@ export default {
               password: this.passwordLogin,
             });
             this.$root.$data.user = response.data.user;
+            this.checkUserStatus();
           } catch (error) {
             this.errorLogin = "Error: " + error.response.data.message;
             this.$root.$data.user = null;
@@ -106,7 +108,13 @@ export default {
         },
         selectIcon(childIcon) {
             this.icon = childIcon;
-            console.log("selected Icon!" + childIcon.name);
+        },
+        checkUserStatus() {
+          if (this.$root.$data.user.role === "admin") {
+            this.$root.$data.isAdmin = true;
+          } else {
+            this.$root.$data.isAdmin = false;
+          }
         }
     },
 }

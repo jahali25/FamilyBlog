@@ -6,6 +6,7 @@ import AddPost from '../views/AddPost.vue'
 import Exhibition from '../views/Exhibition.vue'
 import PostPage from '../views/PostPage.vue'
 import DisplayUsers from '../views/DisplayUsers.vue'
+import AdminPage from '../views/AdminPage.vue'
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,11 @@ const routes = [
     name: 'DisplayUsers',
     component: DisplayUsers,
   },
+  {
+    path: "/admin",
+    name: "AdminPage",
+    component: AdminPage
+  }
 ]
 
 const router = new VueRouter({

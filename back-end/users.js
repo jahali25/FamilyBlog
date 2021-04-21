@@ -26,6 +26,14 @@ const userSchema = new mongoose.Schema({
     },
 });
 
+userSchema.virtual('id').get(function() {
+  return this._id.toHexString();
+});
+
+userSchema.set('toJSON', {
+  virtuals: true
+});
+
 // This is a hook that will be called before a user record is saved,
 // allowing us to be sure to salt and hash the password first.
 userSchema.pre('save', async function(next) {
@@ -264,7 +272,7 @@ router.put("/promote/:userID", validUser, async (req, res) => {
 
   try {
     user = await User.findOne({
-      _id: req.params.userId
+      _id: req.params.userID
     });
     user.role = "admin";
     await user.save();
@@ -280,13 +288,22 @@ router.put("/promote/:userID", validUser, async (req, res) => {
 router.put("/ban/:userID", validUser, async (req, res) => {
   // can only do this if an administrator
   if (req.user.role !== "admin") {
+    console.log("You're not an admin!");
     return res.sendStatus(403);
   }
   try {
     user = await User.findOne({
-      _id: req.params.userId
+      _id: req.params.userID
     });
+    if (!user) {
+      console.log("Couldn't find the user");
+      return res.sendStatus(403);
+    }
     if (user.role === "admin") {
+      console.log("!" + user.role + "!");
+      console.log(user);
+      console.log("They are an admin");
+
       return res.sendStatus(403);
     }
     user.role = "banned";

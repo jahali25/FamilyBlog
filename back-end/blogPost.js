@@ -92,6 +92,16 @@ router.get("/all", async (req, res) => {
   }
 });
 
+router.get('/:id', async (req, res) => {
+  try {
+    let post = await BlogPost.findOne({_id: req.params.id}).populate('user');
+    return res.send(post);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
 module.exports = {
   model: BlogPost,
   routes: router,

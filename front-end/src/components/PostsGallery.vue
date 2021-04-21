@@ -2,13 +2,17 @@
 <div>
     <section class='postsGallery'>
         <div class="blogPost" v-for="post in posts" v-bind:key="post._id">
-            <p class="postTitle">{{post.title}}</p>
-            <img :src="post.photoPath" class="postImg" />
-            <div class="userInfo">
-                <p class="postName">{{post.user.firstName}} {{post.user.lastName}}</p>
-                <img :src="post.user.iconPath" class="userIcon" />
-            </div>
-            <p class="postDate">{{formatDate(post.created)}}</p>
+            <router-link :to="{
+                name: 'PostPage', params: {id: post._id}
+            }">
+                <p class="postTitle">{{post.title}}</p>
+                <img :src="post.photoPath" class="postImg" />
+                <div class="userInfo">
+                    <p class="postName">{{post.user.firstName}} {{post.user.lastName}}</p>
+                    <img :src="post.user.iconPath" class="userIcon" />
+                </div>
+                <p class="postDate">{{formatDate(post.created)}}</p>
+            </router-link>
         </div>
     </section>
 </div>
@@ -40,5 +44,10 @@ export default {
 
 .postImg {
     width: 80px;
+}
+
+router-link:hover {
+    box-shadow: 10px 10px;
+    margin: 15px;
 }
 </style>

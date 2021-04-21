@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Settings from '../views/Settings.vue'
 import AddPost from '../views/AddPost.vue'
 import Exhibition from '../views/Exhibition.vue'
+import PostPage from '../views/PostPage.vue'
 
 Vue.use(VueRouter)
 
@@ -27,7 +28,12 @@ const routes = [
     path: '/exhibition',
     name: 'Exhibition',
     component: Exhibition
-  }
+  },
+  {
+    path: '/post/:id',
+    name: 'PostPage',
+    component: PostPage
+  },
 ]
 
 const router = new VueRouter({

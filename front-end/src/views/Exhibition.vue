@@ -1,6 +1,7 @@
 <template>
 <div class="exhibition">
-    <posts-gallery :posts="posts" />
+    <h1>Here are some of our topic blog posts</h1>
+    <posts-gallery :posts="posts" @update="update"/>
     <p v-if="error">{{error}}</p>
 </div>
 </template>
@@ -19,16 +20,34 @@ export default {
             posts: [],
         }
     },
-    created() {
+    async created() {
         this.getPosts();
+        try {
+          let response = await axios.get('/api/users');
+          this.$root.$data.user = response.data.user;
+          this.checkUserStatus();
+        } catch (error) {
+          this.$root.$data.user = null;
+        }
     },
     methods: {
         async getPosts() {
             try {
                 let response = await axios.get("/api/posts/all");
                 this.posts = response.data;
+                this.posts.sort((a, b) => a.numOfLikes > b.numOfLikes);
             } catch (error) {
             this.error = error.response.data.message;
+          }
+        },
+        update() {
+            this.getPosts();
+        },
+        checkUserStatus() {
+          if (this.$root.$data.user.role === "admin") {
+            this.$root.$data.isAdmin = true;
+          } else {
+            this.$root.$data.isAdmin = false;
           }
         }
     }

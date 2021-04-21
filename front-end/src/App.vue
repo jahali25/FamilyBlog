@@ -10,6 +10,10 @@
         <router-link to='/settings'>
           <i class="fas fa-user-cog" id="settingsIcon"></i>
         </router-link>
+
+        <router-link  to='/displayUsers'>
+          <i class="fas fa-users"></i>
+        </router-link>
         <h2>{{user.firstName}} {{user.lastName}}
           <a @click="logout"><i class="fas fa-sign-out-alt"></i></a>
         </h2>

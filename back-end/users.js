@@ -298,10 +298,10 @@ router.put("/ban/:userID", validUser, async (req, res) => {
     }
 });
 
-// This will allow administrators to get a list of all users to be able to
-// change their role to admin or banned
+// This gives back a list of all users, but only if one is signed in and not
+// banned.
 router.get("/all", validUser, async (req, res) => {
-  if (req.user.role !== "admin") {
+  if (req.user.role === "banned") {
     return res.sendStatus(403);
   }
   try {

@@ -52,7 +52,7 @@ export default {
     async created() {
         try {
           let response = await axios.get('/api/users');
-          this.$root.$data.user = response.data;
+          this.$root.$data.user = response.data.user;
           this.checkUserStatus();
           this.updateFields(response);
           this.error = '';
@@ -124,7 +124,7 @@ export default {
           }
         },
         updateFields(response) {
-            let user = response.data;
+            let user = response.data.user;
             this.firstName = user.firstName;
             this.lastName = user.lastName;
             this.bio = user.bio;

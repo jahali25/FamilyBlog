@@ -33,6 +33,15 @@ const blogPostSchema = new mongoose.Schema({
   }
 });
 
+blogPostSchema.virtual('id')
+  .get(function() {
+    return this._id.toHexString();
+  });
+
+blogPostSchema.set('toJSON', {
+  virtuals: true
+});
+
 const BlogPost = mongoose.model('BlogPost', blogPostSchema);
 
 // upload a blog post
@@ -112,6 +121,46 @@ router.put("/like/:id", async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
+  }
+});
+
+// Edit post
+router.put("/:id", validUser, async (req, res) => {
+  try {
+    let post = await BlogPost.findOne({
+      _id: req.params.id
+    }).populate('user');
+    if (post.user.id !== req.user.id && req.user.role !== 'admin') {
+      console.log("Invalid user to edit this post");
+      return res.sendStatus(403);
+    }
+    post.title = req.body.title;
+    post.paragraphs = req.body.paragraphs;
+    await post.save();
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+// Delete post
+router.delete("/:id", validUser, async (req, res) => {
+  try {
+    let post = await BlogPost.findOne({
+      _id: req.params.id
+    }).populate('user');
+    if (post.user.id !== req.user.id && req.user.role !== 'admin') {
+      console.log("Invalid user to delete this post");
+      return res.sendStatus(403);
+    }
+    await BlogPost.deleteOne({
+      _id: req.params.id
+    });
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
   }
 });
 

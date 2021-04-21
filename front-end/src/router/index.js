@@ -5,6 +5,7 @@ import Settings from '../views/Settings.vue'
 import AddPost from '../views/AddPost.vue'
 import Exhibition from '../views/Exhibition.vue'
 import PostPage from '../views/PostPage.vue'
+import DisplayUsers from '../views/DisplayUsers.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/post/:id',
     name: 'PostPage',
     component: PostPage
+  },
+  {
+    path: '/displayUsers',
+    name: 'DisplayUsers',
+    component: DisplayUsers,
   },
 ]
 

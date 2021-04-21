@@ -32,8 +32,8 @@ export default {
     data() {
         return {
             post: null,
-            comment: '',
-            commentList: [],
+            //comment: '',
+            //commentList: [],
             error: '',
             hasLiked: false,
         }

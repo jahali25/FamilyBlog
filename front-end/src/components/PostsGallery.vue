@@ -50,4 +50,7 @@ router-link:hover {
     box-shadow: 10px 10px;
     margin: 15px;
 }
+a {
+    text-decoration: none;
+}
 </style>

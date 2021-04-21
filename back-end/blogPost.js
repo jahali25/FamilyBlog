@@ -102,6 +102,19 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Increment the like counter
+router.put("/like/:id", async (req, res) => {
+  try {
+    let post = await BlogPost.findOne({_id: req.params.id}).populate('user');
+    post.numOfLikes += 1;
+    await post.save();
+    return res.send(post);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
 module.exports = {
   model: BlogPost,
   routes: router,

@@ -2,7 +2,7 @@
 <div class="postPage">
     <div v-if="post">
         <h1 class="title">{{post.title}}</h1>
-        <p>{{post.paragraphs}}</p>
+        <p class="paragraphs">{{post.paragraphs}}</p>
         <img class="postImage" :src="post.photoPath" />
         <div class="postInfo">
             <p>{{post.user.firstName}} {{post.user.lastName}} </p>
@@ -92,5 +92,9 @@ export default {
 
 .userIcon {
     width: 20px;
+}
+
+.paragraphs {
+    margin: 20px 50px;
 }
 </style>

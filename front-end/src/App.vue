@@ -36,6 +36,7 @@
       <a href="https://github.com/jahali25/FamilyBlog" target="_blank">
         <img src="/icons/GitHub-Mark-120px-plus.png">
       </a>
+      <p>I spent 12 hours on this project.</p>
     </div>
   </div>
 </template>

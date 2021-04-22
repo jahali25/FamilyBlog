@@ -2,7 +2,7 @@
 <div class="iconPage">
     <div class="iconList" v-for="icon in icons" :key="icon.id">
         <div class="icon" @click="setIcon(icon)">
-            <img :src="icon.path" />
+            <img :src="icon.path" :class="{selected: active(icon)}" />
         </div>
     </div>
 
@@ -18,11 +18,16 @@ export default {
     data() {
         return {
             icons: [],
+            selectedIconID: '',
         }
     },
     methods: {
         setIcon(icon) {
+            this.selectedIconID = icon.id;
             this.$emit('clicked', icon);
+        },
+        active(icon) {
+            return icon.id === this.selectedIconID;
         }
     },
 }
@@ -42,6 +47,11 @@ export default {
 img {
     width: 100px;
     margin: 10px;
+}
+
+.selected {
+    box-shadow: 10px 10px;
+    margin: 15px;
 }
 
 </style>

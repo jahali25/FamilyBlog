@@ -1,27 +1,32 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/"><i class="fas fa-home"></i></router-link>
-      <router-link to='/exhibition'>
-        <i class="fas fa-bullhorn"></i>
-      </router-link>
+      <div class="mainIcons">
+        <router-link to="/"><i class="fas fa-home"></i></router-link>
+        <router-link to='/exhibition'>
+          <i class="fas fa-bullhorn"></i>
+        </router-link>
+      </div>
       <div v-if="user">
         <div v-if="isNotBanned">
-          <router-link to="/addPost"> Add a Blog Post </router-link>
+          <router-link to="/addPost" class="addButton"> Add a Blog Post </router-link>
         </div>
-        <router-link to='/settings'>
-          <i class="fas fa-user-cog" id="settingsIcon"></i>
-        </router-link>
-
-        <router-link  to='/displayUsers'>
-          <i class="fas fa-users"></i>
-        </router-link>
+        <div class='lessCommon'>
+          <router-link to='/settings'>
+            <i class="fas fa-user-cog" id="settingsIcon"></i>
+          </router-link>
+          <div v-if="isNotBanned">
+            <router-link  to='/displayUsers'>
+              <i class="fas fa-users"></i>
+            </router-link>
+          </div>
+        </div>
         <div v-if="isAdmin">
           <router-link  to="/admin">
             <i class="fas fa-toolbox"></i>
           </router-link>
         </div>
-        <h2>{{user.firstName}} {{user.lastName}}
+        <h2> <span class="userName">{{user.firstName}} {{user.lastName}}</span>
           <a @click="logout"><i class="fas fa-sign-out-alt"></i></a>
         </h2>
       </div>
@@ -82,11 +87,16 @@ export default {
 
 #nav {
   padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
 }
 
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+  text-decoration: none;
 }
 
 #nav a.router-link-exact-active {
@@ -100,5 +110,55 @@ export default {
 }
 .fas {
   font-size: 50px;
+}
+
+.mainIcons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.mainIcons i {
+  margin: 10px;
+}
+
+i {
+  margin: 10px 0;
+}
+
+.addButton {
+  padding: 5px;
+  border: 2px solid #2c3e50;
+  border-radius: 15px;
+  margin-bottom: 40px;
+}
+
+.lessCommon {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userName {
+  margin-right: 20px;
+}
+
+.footer {
+  margin: 18px 0;
+}
+
+.footer img {
+  width: 100px;
+}
+
+.editingButtons button {
+  margin: 2px 8px;
+  border-radius: 15px;
+  padding: 5px;
+}
+
+* {
+  font-size: 20px;
 }
 </style>

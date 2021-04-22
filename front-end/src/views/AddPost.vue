@@ -152,4 +152,18 @@ img {
   display: flex;
   justify-content: space-between;
 }
+
+.postContainer {
+  width: 85%;
+}
+
+.addPostContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+legend {
+  padding: 10px;
+}
 </style>

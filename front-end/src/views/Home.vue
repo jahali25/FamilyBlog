@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div v-if="user">
-      <h1> Congrats logged in </h1>
+      <posts-gallery :posts="posts" @update="update"/>
     </div>
     <Login v-else/>
   </div>
@@ -9,16 +9,23 @@
 
 <script>
 import axios from 'axios';
-//import Icons from '@/components/Icons.vue';
+import PostsGallery from "@/components/PostsGallery.vue";
 import Login from '@/components/Login.vue';
 export default {
   name: 'Home',
   components: {
     //Icons,
-    Login
+    Login,
+    PostsGallery
+  },
+  data() {
+    return {
+      posts: [],
+    }
   },
   computed: {
         user() {
+            this.getPostOfUser();
             return this.$root.$data.user;
         }
   },
@@ -27,6 +34,7 @@ export default {
       let response = await axios.get('/api/users');
       this.$root.$data.user = response.data.user;
       this.checkUserStatus();
+      this.getPostOfUser();
     } catch (error) {
       this.$root.$data.user = null;
     }
@@ -43,6 +51,20 @@ export default {
           this.$root.$data.isAdmin = false;
           this.$root.$data.isBanned = false;
         }
+    },
+    async getPostOfUser() {
+      if (!this.$root.$data.user) {
+        return;
+      }
+      try {
+        let response = await axios.get("/api/posts");
+        this.posts = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    update() {
+      this.getPostOfUser();
     }
   }
 }

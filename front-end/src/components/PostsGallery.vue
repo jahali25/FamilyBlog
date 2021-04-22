@@ -1,22 +1,22 @@
 <template>
 <div>
-    <section class='postsGallery'>
+    <div class='postsGallery'>
         <div class="blogPost" v-for="post in posts" v-bind:key="post._id">
             <router-link :to="{
                 name: 'PostPage', params: {id: post._id}
             }">
                 <p class="postTitle">{{post.title}}</p>
                 <img :src="post.photoPath" class="postImg" />
-                <div class="userInfo">
-                    <p class="postName">
-                        {{post.user.firstName}} {{post.user.lastName}}
-                    </p>
-                    <img :src="post.user.iconPath" class="userIcon" />
-                </div>
-                <p class="postDate">
-                    {{formatDate(post.created)}}
-                </p>
             </router-link>
+            <div class="userInfo">
+                <p class="postName">
+                    {{post.user.firstName}} {{post.user.lastName}}
+                </p>
+                <img :src="post.user.iconPath" class="userIcon" />
+            </div>
+            <p class="postDate">
+                {{formatDate(post.created)}}
+            </p>
             <div class="editingButtons" v-if="canEdit(post)">
                 <button @click="deletePost(post)">Delete Post</button>
                 <button @click="editPost(post)">Edit Post</button>
@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </div>
 </template>
 
@@ -110,4 +110,23 @@ router-link:hover {
 a {
     text-decoration: none;
 }
+
+.userInfo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.blogPost {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.userInfo p {
+    margin-right: 10px;
+}
+
 </style>

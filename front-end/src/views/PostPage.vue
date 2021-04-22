@@ -81,6 +81,9 @@ export default {
 
 .postInfo {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .postImage {

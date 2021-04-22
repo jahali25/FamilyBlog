@@ -38,7 +38,7 @@ let icons = [{
 {
     id: 8,
     name: "lightning",
-    path: photoPath + "baseball.svg"
+    path: photoPath + "lightning.svg"
 }
 ];
 

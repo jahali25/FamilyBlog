@@ -1,6 +1,6 @@
 <template>
 <div class="settingsPage">
-    <form class="pure-form">
+    <form class="pure-form" v-if="user">
         <fieldset>
             <legend>Change Your Personal Information</legend>
             <input placeholder="first name" v-model="firstName">
@@ -25,19 +25,24 @@
             <button type="submit" class="pure-button pure-button-primary"
             @click.prevent="changeInfo">Change Personal Info</button>
         </fieldset>
+        <p v-if="error" class="error">{{error}}</p>
     </form>
 
-    <p v-if="error" class="error">{{error}}</p>
+    <div v-else>
+        <DeniedPermission />
+    </div>
 </div>
 </template>
 
 <script>
 import axios from 'axios';
 import Icons from "@/components/Icons.vue";
+import DeniedPermission from "@/components/DeniedPermission.vue";
 export default {
     name: 'Settings',
     components: {
-        Icons
+        Icons,
+        DeniedPermission
     },
     data(){
         return {
@@ -145,5 +150,15 @@ input {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+legend {
+  padding: 10px;
 }
 </style>
